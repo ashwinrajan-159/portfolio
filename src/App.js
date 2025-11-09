@@ -746,7 +746,7 @@ const Portfolio = () => {
                     </p>
                     
                     <div className="space-y-4">
-                      <a href="mailto:ashwinrajan@example.com" 
+                      <a href="mailto:ashwinrajan123123@gmail.com" 
                         className="flex items-center gap-4 p-4 rounded-lg transition-all duration-300 hover:bg-white hover:bg-opacity-10"
                         style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
                       >
