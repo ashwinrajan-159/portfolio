@@ -776,7 +776,7 @@ const Portfolio = () => {
                         </div>
                       </a>
 
-                      <a href="www.linkedin.com/in/ashwin-rajan-rajamanickam" target="_blank" rel="noopener noreferrer"
+                      <a href="https://www.linkedin.com/in/ashwin-rajan-rajamanickam" target="_blank" rel="noopener noreferrer"
                         className="flex items-center gap-4 p-4 rounded-lg transition-all duration-300 hover:bg-white hover:bg-opacity-10"
                         style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
                       >
