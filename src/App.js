@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { Github, Linkedin, Mail, Phone, Heart, Code, Brain, Cloud, Zap, Award, User, FolderOpen, BookOpen, ExternalLink, Download, Star, Calendar, Monitor, Database, Terminal, Globe } from 'lucide-react';
 import LiquidEther from './LiquidEther';  // Adjust path if needed
 // Color configuration - all white text with transparent backgrounds
