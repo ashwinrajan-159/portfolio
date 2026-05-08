@@ -10,6 +10,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [20]
+
     steps:
 
       - name: Checkout Repository
@@ -18,10 +22,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build Project
+      - name: Run Tests
+        run: npm test -- --watchAll=false
+
+      - name: Build Application
         run: npm run build
