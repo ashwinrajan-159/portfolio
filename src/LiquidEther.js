@@ -12,7 +12,7 @@ export default function LiquidEther({
   BFECC = true,
   resolution = 0.5,
   isBounce = false,
-  colors = ['#5227FF', '#FF9FFC', '#B19EEF'],
+  colors = ['#14304D', '#2979C7', '#E65100', '#FF1744'],
   style = {},
   className = '',
   autoDemo = true,
@@ -29,6 +29,7 @@ export default function LiquidEther({
   const intersectionObserverRef = useRef(null);
   const isVisibleRef = useRef(true);
   const resizeRafRef = useRef(null);
+  const colorsKey = JSON.stringify(colors);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -84,9 +85,9 @@ export default function LiquidEther({
       }
       init(container) {
         this.container = container;
-        this.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        this.pixelRatio = Math.min(window.devicePixelRatio || 1, 1);
         this.resize();
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'high-performance' });
         this.renderer.autoClear = false;
         this.renderer.setClearColor(new THREE.Color(0x000000), 0);
         this.renderer.setPixelRatio(this.pixelRatio);
@@ -120,6 +121,8 @@ export default function LiquidEther({
         this.diff = new THREE.Vector2();
         this.timer = null;
         this.container = null;
+        this._cachedRect = null;
+        this._rectCacheTime = 0;
         this._onMouseMove = this.onDocumentMouseMove.bind(this);
         this._onTouchStart = this.onDocumentTouchStart.bind(this);
         this._onTouchMove = this.onDocumentTouchMove.bind(this);
@@ -155,10 +158,18 @@ export default function LiquidEther({
         this.container.removeEventListener('mouseleave', this._onMouseLeave, false);
         this.container.removeEventListener('touchend', this._onTouchEnd, false);
       }
+      getRect() {
+        const now = performance.now();
+        if (!this._cachedRect || now - this._rectCacheTime > 500) {
+          this._cachedRect = this.container.getBoundingClientRect();
+          this._rectCacheTime = now;
+        }
+        return this._cachedRect;
+      }
       setCoords(x, y) {
         if (!this.container) return;
         if (this.timer) clearTimeout(this.timer);
-        const rect = this.container.getBoundingClientRect();
+        const rect = this.getRect();
         const nx = (x - rect.left) / rect.width;
         const ny = (y - rect.top) / rect.height;
         this.coords.set(nx * 2 - 1, -(ny * 2 - 1));
@@ -174,7 +185,7 @@ export default function LiquidEther({
       onDocumentMouseMove(event) {
         if (this.onInteract) this.onInteract();
         if (this.isAutoActive && !this.hasUserControl && !this.takeoverActive) {
-          const rect = this.container.getBoundingClientRect();
+          const rect = this.getRect();
           const nx = (event.clientX - rect.left) / rect.width;
           const ny = (event.clientY - rect.top) / rect.height;
           this.takeoverFrom.copy(this.coords);
@@ -381,9 +392,11 @@ export default function LiquidEther({
     void main(){
     vec2 vel = texture2D(velocity, uv).xy;
     float lenv = clamp(length(vel), 0.0, 1.0);
-    vec3 c = texture2D(palette, vec2(lenv, 0.5)).rgb;
-    vec3 outRGB = mix(bgColor.rgb, c, lenv);
-    float outA = mix(bgColor.a, 1.0, lenv);
+    float t = pow(lenv, 0.45);
+    vec3 c = texture2D(palette, vec2(t, 0.5)).rgb;
+    float vis = smoothstep(0.0, 0.2, lenv);
+    vec3 outRGB = mix(bgColor.rgb, c, vis);
+    float outA = mix(bgColor.a, 1.0, vis);
     gl_FragColor = vec4(outRGB, outA);
 }
 `;
@@ -749,8 +762,7 @@ export default function LiquidEther({
         this.createShaderPass();
       }
       getFloatType() {
-        const isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent);
-        return isIOS ? THREE.HalfFloatType : THREE.FloatType;
+        return THREE.HalfFloatType;
       }
       createAllFBO() {
         const type = this.getFloatType();
@@ -920,6 +932,8 @@ export default function LiquidEther({
         this.init();
         this._loop = this.loop.bind(this);
         this._resize = this.resize.bind(this);
+        this._lastFrameTime = 0;
+        this._frameInterval = 1000 / 30; // cap at 30fps
         window.addEventListener('resize', this._resize);
         this._onVisibility = () => {
           const hidden = document.hidden;
@@ -946,15 +960,19 @@ export default function LiquidEther({
         Common.update();
         this.output.update();
       }
-      loop() {
-        if (!this.running) return; // safety
-        this.render();
+      loop(timestamp) {
+        if (!this.running) return;
         rafRef.current = requestAnimationFrame(this._loop);
+        const elapsed = timestamp - this._lastFrameTime;
+        if (elapsed < this._frameInterval) return;
+        this._lastFrameTime = timestamp - (elapsed % this._frameInterval);
+        this.render();
       }
       start() {
         if (this.running) return;
         this.running = true;
-        this._loop();
+        this._lastFrameTime = performance.now();
+        rafRef.current = requestAnimationFrame(this._loop);
       }
       pause() {
         this.running = false;
@@ -1069,25 +1087,8 @@ export default function LiquidEther({
       }
       webglRef.current = null;
     };
-  }, [
-    BFECC,
-    cursorSize,
-    dt,
-    isBounce,
-    isViscous,
-    iterationsPoisson,
-    iterationsViscous,
-    mouseForce,
-    resolution,
-    viscous,
-    colors,
-    autoDemo,
-    autoSpeed,
-    autoIntensity,
-    takeoverDuration,
-    autoResumeDelay,
-    autoRampDuration
-  ]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colorsKey]);
 
   useEffect(() => {
     const webgl = webglRef.current;

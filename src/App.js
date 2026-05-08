@@ -269,16 +269,17 @@ const Portfolio = () => {
       {/* LiquidEther Fluid Simulation Background */}
       <div className="fixed inset-0 z-0 w-full h-full">
         <LiquidEther
-            colors={['#5227FF', '#FF9FFC', '#B19EEF']}
+            colors={['#14304D', '#2979C7', '#E65100', '#FF1744']}
             mouseForce={20}
-            cursorSize={100}
+            cursorSize={80}
             isViscous={false}
             viscous={30}
-            iterationsViscous={32}
-            iterationsPoisson={32}
-            resolution={0.5}  // Lower for better performance on mobile
+            iterationsViscous={16}
+            iterationsPoisson={16}
+            resolution={0.35}
             isBounce={false}
-            autoDemo={true}  // Enables auto-movement when idle
+            BFECC={false}
+            autoDemo={true}
             autoSpeed={0.5}
             autoIntensity={2.2}
             takeoverDuration={0.25}
