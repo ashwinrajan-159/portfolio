@@ -280,7 +280,7 @@ const Portfolio = () => {
         <header className="sticky top-0 z-20 p-6 backdrop-blur-sm">
           <div className="max-w-6xl mx-auto w-full">
             <div className="flex flex-col items-center text-center mb-6">
-              <h1 className="text-5xl font-bold mb-2 tracking-tight" style={{ color: colors.primary }}>
+              <h1 className="text-5xl font-bold mb-2 tracking-tight" style={{ color: colors.primary, fontFamily: "'Bruno Ace SC', cursive" }}>
                 ASHWIN RAJAN
               </h1>
               <div className="flex items-center justify-center gap-2 text-sm mb-3 rounded-full px-4 py-1"
