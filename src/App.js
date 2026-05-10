@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import { Github, Linkedin, Mail, Phone, Heart, Code, Brain, Cloud, Zap, Award, User, FolderOpen, BookOpen, ExternalLink, Download, Star, Calendar, Monitor, Database, Terminal, Globe } from 'lucide-react';
+import { Github, Linkedin, Mail, Phone, Heart, Code, Brain, Cloud, Zap, Award, User, FolderOpen, BookOpen, ExternalLink, Download, Star, Calendar, Monitor, Database, Terminal, Globe, Server, Shield, Wifi, HardDrive } from 'lucide-react';
 import LiquidEther from './LiquidEther';  // Adjust path if needed
 // Color configuration - all white text with transparent backgrounds
 const colors = {
@@ -18,89 +18,76 @@ const Portfolio = () => {
   const projects = [
     {
       id: 1,
-      title: "Emotion Recognition System",
-      subtitle: "AI-Powered Computer Vision",
-      description: "Advanced CNN-based emotion recognition system that classifies facial expressions in real-time with exceptional accuracy using TensorFlow and OpenCV.",
-      tech: ["TensorFlow", "OpenCV", "Python", "CNN", "Computer Vision"],
-      year: "2024",
-      status: "Featured",
-      metrics: { accuracy: "95%", performance: "+12%", usage: "Real-time" },
+      title: "Flimo – AI-Powered Movie Discovery Engine",
+      subtitle: "Production on AWS",
+      description: "Full-stack content recommendation platform using FastAPI, FAISS vector indexing, and Transformer-based embeddings (all-MiniLM-L6-v2) for semantic NLP search. Deployed on AWS EC2 with Docker, Nginx reverse proxy, and GitHub Actions CI/CD.",
+      tech: ["FastAPI", "Docker", "AWS EC2", "FAISS", "Nginx", "GitHub Actions", "Cloudflare", "Python"],
+      year: "2025",
+      status: "Production",
+      metrics: { deploy: "1m 8s", cost: "~$34/mo", uptime: "99.9%" },
       highlights: [
-        "Real-time emotion detection and classification",
-        "High-accuracy deep learning model training",
-        "Psychology and HCI applications",
-        "Optimized for production deployment"
+        "Hybrid personalization engine with composite taste vectors from user view history",
+        "Multi-stage Dockerfile with Docker Compose, EBS volume mounts, and health checks",
+        "Nginx reverse proxy on EC2 (t3.medium, Ubuntu 22.04); debugged 9 pre-deploy issues",
+        "GitHub Actions CI/CD pipeline: push → SSH → build → health check in 1m 8s",
+        "HTTPS via Cloudflare Tunnel configured as a systemd service for auto-restart"
       ],
-      category: "AI/ML"
+      category: "Infrastructure"
     },
     {
       id: 2,
-      title: "Automated Cloud Deployment",
-      subtitle: "DevOps & Infrastructure",
-      description: "Enterprise-grade automated deployment system leveraging containerization, orchestration and CI/CD pipelines for seamless cloud operations.",
-      tech: ["Docker", "Kubernetes", "AWS", "CI/CD", "Terraform"],
+      title: "Emotion Recognition System",
+      subtitle: "Real-Time Computer Vision",
+      description: "Real-time emotion recognition application using TensorFlow and OpenCV with optimized preprocessing pipelines and CPU/GPU utilization analysis for improved compute efficiency.",
+      tech: ["TensorFlow", "OpenCV", "Python", "CNN", "Computer Vision"],
       year: "2024",
-      status: "Production",
-      metrics: { efficiency: "+40%", reliability: "99.9%", deployment: "Automated" },
+      status: "Completed",
+      metrics: { latency: "Low", processing: "Real-time", efficiency: "Optimized" },
       highlights: [
-        "Containerized microservices architecture",
-        "Kubernetes orchestration and scaling",
-        "Infrastructure as Code implementation",
-        "Zero-downtime deployment strategy"
-      ],
-      category: "DevOps"
-    },
-    {
-      id: 3,
-      title: "Speech Recognition System",
-      subtitle: "NLP & Machine Learning",
-      description: "Optimized speech recognition system with advanced NLP capabilities, achieving significant performance improvements and industry compliance.",
-      tech: ["Python", "NLP", "Machine Learning", "Speech Processing"],
-      year: "2023",
-      status: "Optimized",
-      metrics: { improvement: "+12%", failures: "-15%", accuracy: "Industry Standard" },
-      highlights: [
-        "Advanced speech processing algorithms",
-        "Natural language understanding",
-        "Voice recognition optimization",
-        "Industry standard compliance"
+        "Built real-time emotion recognition with TensorFlow and OpenCV",
+        "Optimized preprocessing pipelines to reduce inference latency",
+        "Analyzed CPU/GPU utilization to improve compute efficiency"
       ],
       category: "AI/ML"
     }
   ];
 
   const skills = {
-    "Frontend": {
-      icon: Monitor,
-      items: ["React", "JavaScript", "HTML5", "CSS3", "Responsive Design"]
+    "Systems": {
+      icon: Server,
+      items: ["Linux", "Process Management", "Filesystems", "RAID", "Virtualization"]
+    },
+    "Cloud & Containers": {
+      icon: Cloud,
+      items: ["AWS", "Microsoft Azure", "Docker", "Kubernetes"]
+    },
+    "Infrastructure & DevOps": {
+      icon: HardDrive,
+      items: ["Terraform", "CI/CD Pipelines", "Jenkins", "Infrastructure as Code"]
+    },
+    "Monitoring & Reliability": {
+      icon: Shield,
+      items: ["System Monitoring", "Incident Response", "Root Cause Analysis"]
+    },
+    "Networking": {
+      icon: Wifi,
+      items: ["TCP/IP", "DNS", "Subnetting", "VLAN Fundamentals", "Network Troubleshooting"]
     },
     "Programming": {
       icon: Code,
-      items: ["Python", "Java", "C++", "SQL", "Data Structures"]
+      items: ["Python", "Java", "C++", "SQL", "Bash"]
     },
-    "AI/ML": {
-      icon: Brain,
-      items: ["TensorFlow", "OpenCV", "NLP", "CNN", "Deep Learning"]
-    },
-    "Cloud & DevOps": {
-      icon: Cloud,
-      items: ["AWS", "Azure", "Docker", "Kubernetes", "Jenkins"]
-    },
-    "Database": {
-      icon: Database,
-      items: ["SQL", "NoSQL", "Database Design", "Query Optimization"]
-    },
-    "Tools & Others": {
+    "Tools": {
       icon: Terminal,
-      items: ["Git", "Terraform", "CI/CD", "Linux", "Agile"]
+      items: ["Git", "Linux CLI", "Shell Scripting"]
     }
   };
 
   const achievements = [
+    { title: "200+ DSA Problems Solved", year: "2025", type: "Achievement", icon: Code },
+    { title: "Top 100 – Amazon Zelestra Competition", year: "2024", type: "Achievement", icon: Award },
     { title: "Applied Machine Learning in Python", year: "2024", type: "Certification", icon: Award },
-    { title: "Advanced SQL for Technical Interviews", year: "2024", type: "Certification", icon: Award },
-    { title: "Cloud Architecture Specialization", year: "2024", type: "Coursework", icon: Cloud },
-    { title: "AI/ML Fundamentals", year: "2024", type: "Coursework", icon: Brain }
+    { title: "Advanced SQL for Technical Interviews", year: "2024", type: "Certification", icon: Award }
   ];
 
   const NavItem = ({ icon: Icon, label, section, isActive }) => (
@@ -266,11 +253,11 @@ const Portfolio = () => {
     <div className="min-h-screen overflow-x-hidden relative"
       style={{ backgroundColor: colors.background, color: colors.primary }}
     >
-      {/* LiquidEther Fluid Simulation Background */}
-      <div className="fixed inset-0 z-0 w-full h-full">
+      {/* LiquidEther Fluid Simulation Background — interactive */}
+      <div className="fixed inset-0 z-0 w-full h-full" style={{ pointerEvents: 'auto' }}>
         <LiquidEther
             colors={['#14304D', '#2979C7', '#E65100', '#FF1744']}
-            mouseForce={20}
+            mouseForce={10}
             cursorSize={80}
             isViscous={false}
             viscous={30}
@@ -280,10 +267,10 @@ const Portfolio = () => {
             isBounce={false}
             BFECC={false}
             autoDemo={true}
-            autoSpeed={0.5}
-            autoIntensity={2.2}
+            autoSpeed={0.3}
+            autoIntensity={1.2}
             takeoverDuration={0.25}
-            autoResumeDelay={3000}
+            autoResumeDelay={1500}
             autoRampDuration={0.6}
           />
 </div>
@@ -306,7 +293,7 @@ const Portfolio = () => {
                 <span>Available for opportunities</span>
               </div>
               <p className="text-md leading-relaxed max-w-2xl" style={{ color: colors.textLight }}>
-                Cloud & AI Tech Enthusiast specializing in scalable applications and intelligent systems
+                SRE & Cloud Infrastructure Enthusiast — Linux systems, containerized deployments, and reliability engineering
               </p>
             </div>
 
@@ -337,12 +324,12 @@ const Portfolio = () => {
                   <div className="grid md:grid-cols-2 gap-8 items-center">
                     <div>
                       <h3 className="text-2xl font-bold mb-4" style={{ color: colors.primary }}>
-                        Building the Future with AI & Cloud
+                        Building Reliable Infrastructure at Scale
                       </h3>
                       <p className="text-lg leading-relaxed mb-6" style={{ color: colors.textLight }}>
-                        I'm a passionate Computer Science student at VIT Bhopal, specializing in AI/ML and cloud technologies. 
-                        I love creating intelligent systems that solve real-world problems and building scalable applications 
-                        that make a difference.
+                        Computer Science undergraduate with hands-on experience in Linux systems, containerized infrastructure, 
+                        and distributed backend services. Skilled in debugging system failures, automating deployments, and 
+                        designing scalable cloud-based systems.
                       </p>
                       <div className="flex flex-wrap gap-3 justify-center md:justify-start">
                         <span className="px-4 py-2 rounded-full text-sm font-medium"
@@ -359,7 +346,7 @@ const Portfolio = () => {
                             color: colors.primary
                           }}
                         >
-                          🚀 AI/ML Enthusiast
+                          🛠️ SRE Enthusiast
                         </span>
                         <span className="px-4 py-2 rounded-full text-sm font-medium"
                           style={{ 
@@ -367,7 +354,7 @@ const Portfolio = () => {
                             color: colors.primary
                           }}
                         >
-                          ☁️ Cloud Developer
+                          ☁️ Cloud & DevOps
                         </span>
                       </div>
                     </div>
@@ -391,9 +378,9 @@ const Portfolio = () => {
                 {/* What I Do */}
                 <div className="grid md:grid-cols-3 gap-6">
                   {[
-                    { icon: Brain, title: "AI & Machine Learning", desc: "Developing intelligent systems using TensorFlow, computer vision, and NLP to solve complex real-world problems.", color: colors.primary },
-                    { icon: Cloud, title: "Cloud Architecture", desc: "Building scalable cloud solutions on AWS and Azure with containerization and infrastructure as code.", color: colors.primary },
-                    { icon: Zap, title: "DevOps & Automation", desc: "Implementing CI/CD pipelines and automation tools to streamline development and deployment processes.", color: colors.primary }
+                    { icon: Server, title: "Linux & Systems", desc: "Deep experience with Linux administration, process management, filesystems, and system-level debugging and optimization.", color: colors.primary },
+                    { icon: Cloud, title: "Cloud & Containers", desc: "Building and deploying on AWS and Azure with Docker, Kubernetes, and infrastructure as code using Terraform.", color: colors.primary },
+                    { icon: Shield, title: "Reliability Engineering", desc: "System monitoring, incident response, root cause analysis, and designing reliable distributed services.", color: colors.primary }
                   ].map((item, index) => (
                     <div key={index} className="rounded-xl p-5 transition-all duration-300 hover:transform hover:-translate-y-1"
                       style={{
@@ -422,9 +409,9 @@ const Portfolio = () => {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       {[
-                        { color: colors.primary, text: "Advanced Computer Vision Projects" },
-                        { color: colors.primary, text: "Cloud-Native Application Development" },
-                        { color: colors.primary, text: "DevOps Pipeline Optimization" }
+                        { color: colors.primary, text: "Site Reliability Engineering" },
+                        { color: colors.primary, text: "Cloud Infrastructure Automation" },
+                        { color: colors.primary, text: "System Performance Optimization" }
                       ].map((item, index) => (
                         <div key={index} className="flex items-center gap-3" style={{ color: item.color }}>
                           <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: item.color }}></div>
@@ -434,8 +421,8 @@ const Portfolio = () => {
                     </div>
                     <div style={{ color: colors.textLight }}>
                       <p className="leading-relaxed">
-                        Constantly exploring new technologies and methodologies to push the boundaries of what's possible 
-                        in AI and cloud computing. Always excited to collaborate on innovative projects!
+                        Focused on building reliable, scalable systems and automating infrastructure. 
+                        Interested in distributed systems, data center operations, and performance engineering.
                       </p>
                     </div>
                   </div>
@@ -584,7 +571,7 @@ const Portfolio = () => {
                         <div className="flex items-start justify-between mb-3">
                           <div>
                             <h3 className="text-xl font-bold mb-2" style={{ color: colors.primary }}>Vellore Institute of Technology, Bhopal</h3>
-                            <p className="font-medium" style={{ color: colors.primary }}>Bachelor of Technology in Computer Science</p>
+                            <p className="font-medium" style={{ color: colors.primary }}>Bachelor of Technology in Computer Science and Engineering</p>
                           </div>
                           <div className="text-right">
                             <div className="text-sm rounded-full px-3 py-1"
@@ -593,30 +580,26 @@ const Portfolio = () => {
                                 color: colors.textLight
                               }}
                             >
-                              2023 - 2027
+                              Sep 2023 - May 2027
                             </div>
                           </div>
                         </div>
                         <p className="mb-4" style={{ color: colors.textLight }}>
-                          Specializing in Artificial Intelligence and Machine Learning with a focus on cloud computing 
-                          and distributed systems.
+                          Focused on systems, cloud computing, and distributed infrastructure with strong foundations 
+                          in networking, monitoring, and reliability engineering.
                         </p>
                         <div className="space-y-2">
                           <div className="flex items-center gap-2 text-sm" style={{ color: colors.textLight }}>
                             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.primary }}></div>
-                            <span>CGPA: 8.52/10</span>
+                            <span>CGPA: 8.5/10</span>
                           </div>
                           <div className="flex items-center gap-2 text-sm" style={{ color: colors.textLight }}>
                             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.primary }}></div>
-                            <span>Relevant Coursework: Data Structures, Algorithms, Machine Learning, Cloud Computing</span>
+                            <span>Relevant Coursework: Operating Systems, Computer Networks, Distributed Systems, Cloud Computing, DevOps</span>
                           </div>
                           <div className="flex items-center gap-2 text-sm" style={{ color: colors.textLight }}>
                             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.primary }}></div>
                             <span>Activities: Tech Club Member, Coding Competitions</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm" style={{ color: colors.textLight }}>
-                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.primary }}></div>
-                            <span>Specialization: AI & Machine Learning</span>
                           </div>
                         </div>
                       </div>

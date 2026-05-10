@@ -142,21 +142,22 @@ export default function LiquidEther({
       }
       init(container) {
         this.container = container;
-        container.addEventListener('mousemove', this._onMouseMove, false);
-        container.addEventListener('touchstart', this._onTouchStart, false);
-        container.addEventListener('touchmove', this._onTouchMove, false);
+        // Listen on window so movement over content layer still drives the fluid
+        window.addEventListener('mousemove', this._onMouseMove, false);
+        window.addEventListener('touchstart', this._onTouchStart, false);
+        window.addEventListener('touchmove', this._onTouchMove, false);
         container.addEventListener('mouseenter', this._onMouseEnter, false);
         container.addEventListener('mouseleave', this._onMouseLeave, false);
-        container.addEventListener('touchend', this._onTouchEnd, false);
+        window.addEventListener('touchend', this._onTouchEnd, false);
       }
       dispose() {
         if (!this.container) return;
-        this.container.removeEventListener('mousemove', this._onMouseMove, false);
-        this.container.removeEventListener('touchstart', this._onTouchStart, false);
-        this.container.removeEventListener('touchmove', this._onTouchMove, false);
+        window.removeEventListener('mousemove', this._onMouseMove, false);
+        window.removeEventListener('touchstart', this._onTouchStart, false);
+        window.removeEventListener('touchmove', this._onTouchMove, false);
         this.container.removeEventListener('mouseenter', this._onMouseEnter, false);
         this.container.removeEventListener('mouseleave', this._onMouseLeave, false);
-        this.container.removeEventListener('touchend', this._onTouchEnd, false);
+        window.removeEventListener('touchend', this._onTouchEnd, false);
       }
       getRect() {
         const now = performance.now();
@@ -221,6 +222,7 @@ export default function LiquidEther({
         this.isHoverInside = true;
       }
       onMouseLeave() {
+        // Keep fluid responding even when mouse leaves the container area
         this.isHoverInside = false;
       }
       update() {
@@ -392,9 +394,9 @@ export default function LiquidEther({
     void main(){
     vec2 vel = texture2D(velocity, uv).xy;
     float lenv = clamp(length(vel), 0.0, 1.0);
-    float t = pow(lenv, 0.45);
+    float t = pow(lenv, 0.8);
     vec3 c = texture2D(palette, vec2(t, 0.5)).rgb;
-    float vis = smoothstep(0.0, 0.2, lenv);
+    float vis = smoothstep(0.02, 0.35, lenv) * 0.55;
     vec3 outRGB = mix(bgColor.rgb, c, vis);
     float outA = mix(bgColor.a, 1.0, vis);
     gl_FragColor = vec4(outRGB, outA);
@@ -1143,7 +1145,7 @@ export default function LiquidEther({
   return (
     <div
       ref={mountRef}
-      className={`w-full h-full relative overflow-hidden pointer-events-none touch-none ${className || ''}`}
+      className={`w-full h-full relative overflow-hidden ${className || ''}`}
       style={style}
     />
   );
