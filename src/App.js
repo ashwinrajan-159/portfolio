@@ -251,12 +251,21 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen overflow-x-hidden relative"
-      style={{ backgroundColor: colors.background, color: colors.primary }}
+      style={{
+        background: `
+          radial-gradient(circle at 65% 60%, #d1d9de 0%, transparent 35%),
+          radial-gradient(circle at 55% 40%, #c14b67 0%, transparent 45%),
+          radial-gradient(circle at 40% 30%, #822543 0%, transparent 50%),
+          radial-gradient(circle at 30% 70%, #341628 0%, transparent 55%),
+          linear-gradient(135deg, #08050c 0%, #1a0f1f 100%)
+        `,
+        color: colors.primary
+      }}
     >
       {/* LiquidEther Fluid Simulation Background — interactive */}
       <div className="fixed inset-0 z-0 w-full h-full" style={{ pointerEvents: 'auto' }}>
         <LiquidEther
-            colors={['#1A0D0A', '#FF5A2F', '#FF3B1F', '#E8DFCF', '#F2EBDB']}
+            colors={['#08050c', '#1a0f1f', '#341628', '#822543', '#c14b67', '#d1d9de']}
             mouseForce={6}
             cursorSize={120}
             isViscous={true}
