@@ -256,22 +256,22 @@ const Portfolio = () => {
       {/* LiquidEther Fluid Simulation Background — interactive */}
       <div className="fixed inset-0 z-0 w-full h-full" style={{ pointerEvents: 'auto' }}>
         <LiquidEther
-            colors={['#000000', '#0A1F44', '#1E4ED8', '#E5E7EB']}
-            mouseForce={10}
-            cursorSize={80}
-            isViscous={false}
-            viscous={30}
-            iterationsViscous={16}
-            iterationsPoisson={16}
+            colors={['#1A0D0A', '#FF5A2F', '#FF3B1F', '#E8DFCF', '#F2EBDB']}
+            mouseForce={6}
+            cursorSize={120}
+            isViscous={true}
+            viscous={50}
+            iterationsViscous={20}
+            iterationsPoisson={20}
             resolution={0.35}
             isBounce={false}
             BFECC={false}
             autoDemo={true}
-            autoSpeed={0.3}
-            autoIntensity={1.2}
-            takeoverDuration={0.25}
+            autoSpeed={0.18}
+            autoIntensity={0.8}
+            takeoverDuration={0.35}
             autoResumeDelay={1500}
-            autoRampDuration={0.6}
+            autoRampDuration={0.8}
           />
 </div>
 

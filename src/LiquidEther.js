@@ -394,12 +394,14 @@ export default function LiquidEther({
     void main(){
     vec2 vel = texture2D(velocity, uv).xy;
     float lenv = clamp(length(vel), 0.0, 1.0);
-    float t = pow(lenv, 0.8);
+    // Softer power curve for gentler color transitions
+    float t = pow(lenv, 0.5);
     vec3 c = texture2D(palette, vec2(t, 0.5)).rgb;
-    // Subtle center intensity boost — peaks at ~1.25x in the center, 1.0 at edges
-    float distFromCenter = length(uv - 0.5) * 2.0; // 0 at center, ~1.4 at corners
-    float centerBoost = 1.0 + 0.25 * smoothstep(0.8, 0.0, distFromCenter);
-    float vis = smoothstep(0.02, 0.35, lenv) * 0.55 * centerBoost;
+    // Subtle center intensity boost — softer falloff
+    float distFromCenter = length(uv - 0.5) * 2.0;
+    float centerBoost = 1.0 + 0.15 * smoothstep(0.9, 0.0, distFromCenter);
+    // Wider smoothstep range for a more gradual, blended appearance
+    float vis = smoothstep(0.01, 0.5, lenv) * 0.45 * centerBoost;
     vec3 outRGB = mix(bgColor.rgb, c, vis);
     float outA = mix(bgColor.a, 1.0, vis);
     gl_FragColor = vec4(outRGB, outA);
