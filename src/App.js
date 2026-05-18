@@ -251,7 +251,7 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen overflow-x-hidden relative"
-      style={{ backgroundColor: colors.background, color: colors.primary }}
+      style={{ background: 'linear-gradient(135deg, #000000 0%, #0A1F44 35%, #1E4ED8 65%, #E5E7EB 100%)', color: colors.primary }}
     >
       {/* LiquidEther Fluid Simulation Background — interactive */}
       <div className="fixed inset-0 z-0 w-full h-full" style={{ pointerEvents: 'auto' }}>
