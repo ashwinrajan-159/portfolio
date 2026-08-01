@@ -101,23 +101,21 @@ tag in `index.html`. To swap any of them, replace the file or repoint `src`:
 | `fedlearn-img`  | `assets/img/fedlearn-card.jpg`  | cover | no        |
 | `flimo-img`     | `assets/img/flimo-card.jpg`     | cover | no        |
 
-The three project panels are generated gradient washes, deliberately text-free —
-the project name, tagline and stack already sit in the left column of the same
-row, so anything set on the image would just repeat it. They are built by
-`../social-previews/project-gradients.ps1`, which writes straight into
-`assets/img/`; edit the `$panels` table there to change the colour mix, then
-re-run it. Each carries the project's initial in Codex at 12% opacity, centred so
-`cover` cannot crop it.
+The three project panels are generated mesh gradients carrying **no text at all** —
+the name, tagline and stack already sit in the left column of the same row. Each
+leads with one colour of the portfolio triad read at full saturation: gold for
+TrustLens, olive for FedLearn, bronze for Flimo.
+
+They come from `../social-previews/make-images.ps1`, which writes straight into
+`assets/img/`. Edit the `$projects` table there to change the colour mix, then
+re-run it. That one script also produces the GitHub social previews from the same
+mesh, so the two stay in sync.
 
 Greyscale is per-container: `applyTweaks()` in the page's `text/x-dc` script sets
 `filter:grayscale(1)` on every `[data-mono]` element, and the `monochromeImages`
 prop is unset in a static deploy so it defaults to on. Only the portrait's
 container still carries `data-mono` — it was removed from the three project
-panels, which would otherwise render their bronze and gold as flat grey.
-
-Do not confuse these with the text-bearing 1280×640 cards in
-`../social-previews/`; those are the GitHub social previews and are a separate
-set of files.
+panels, which would otherwise render as flat grey.
 
 ## Known gaps
 
