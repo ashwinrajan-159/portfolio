@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+# PowerShell 5.1 reads .ps1 as ANSI without a BOM and is happiest with CRLF
+*.ps1 text eol=crlf
+
+# never line-ending-convert these
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.pdf  binary
+*.woff2 binary
+*.ttf  binary
+*.otf  binary
