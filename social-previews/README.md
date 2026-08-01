@@ -4,8 +4,11 @@
 
 | output | goes to | contents |
 | --- | --- | --- |
-| `<repo>.png` (1280×640) | this folder → upload to GitHub | gradient + project name |
+| `<repo>.jpg` (1280×640) | this folder → upload to GitHub | gradient + project name |
 | `<repo>-card.jpg` (1200×900) | `../ashwin-rajan-portfolio/assets/img/` | gradient only, no text |
+
+JPEG, not PNG: GitHub rejects social previews over 1 MB and the grain makes a PNG
+of these about 2 MB. The script prints a warning if any card crosses that line.
 
 The page panels carry no text because the project name, tagline and stack are
 already beside them in the layout. The GitHub cards keep the name, because on a
@@ -35,23 +38,39 @@ There is no API for the social preview; it is web-UI only. Per repo:
 
 | file | repo |
 | --- | --- |
-| `trustlens.png` | https://github.com/ashwinrajan-159/trustlens |
-| `fedlearn.png` | https://github.com/ashwinrajan-159/fedlearn |
-| `flimo.png` | https://github.com/ashwinrajan-159/flimo |
+| `trustlens.jpg` | https://github.com/ashwinrajan-159/trustlens |
+| `fedlearn.jpg` | https://github.com/ashwinrajan-159/fedlearn |
+| `flimo.jpg` | https://github.com/ashwinrajan-159/flimo |
 
 GitHub caches previews, so a card can take a few minutes to show up in link
 unfurls. Check with `curl -s https://github.com/<owner>/<repo> | grep og:image`.
 
 ## How the gradients are made
 
-GDI+ has no blur filter, so a mesh built from overlapping shapes comes out with
-hard edges. Instead the script evaluates the mesh **per pixel at 40×30** using
-inverse-distance weighting across six colour points, then upscales bicubically in
-stages. The upscale is the blur, and because it is resampling real data rather
-than smearing pixels it stays perfectly smooth.
+Four layers stack up, tunable per project in the `$projects` table:
 
-It renders ~14% oversized and centre-crops: bicubic sampling runs past the source
-edge and leaves a pale halo, which the crop removes.
+| layer | what it does |
+| --- | --- |
+| **mesh** | six colour points blended by inverse-distance weighting |
+| **core** | a gaussian bloom toward a bright tint, offset from centre so the image has a subject rather than being uniformly lit |
+| **vignette** | quadratic falloff into the corners, widening the value range |
+| **grain** | fine film noise over the top |
+
+GDI+ has no blur filter, so a mesh built from overlapping shapes comes out with
+hard edges. Instead the first three layers are evaluated **per pixel at 60×45**
+and upscaled bicubically in stages — the upscale *is* the blur, and because it
+resamples real data rather than smearing pixels it stays perfectly smooth. It
+renders ~14% oversized and centre-crops, since bicubic sampling runs past the
+source edge and leaves a pale halo.
+
+Grain has to be applied *after* the upscale or it would be blurred away, so it is
+tiled on at 1:1 from a 220×220 speckle tile. Mid-grey in that tile is fully
+transparent, so the noise adds texture without desaturating the gradient. The
+tile uses a fixed seed, so re-running the script reproduces the same images.
+
+Grain is incompressible, and it — not the gradient — dominates file size. That is
+why quality sits at 82 for the panels and 86 for the cards; raising the grain
+strength raises every file substantially.
 
 ## Regenerating
 

@@ -103,8 +103,13 @@ tag in `index.html`. To swap any of them, replace the file or repoint `src`:
 
 The three project panels are generated mesh gradients carrying **no text at all** —
 the name, tagline and stack already sit in the left column of the same row. Each
-leads with one colour of the portfolio triad read at full saturation: gold for
-TrustLens, olive for FedLearn, bronze for Flimo.
+leads with one colour of the portfolio triad read at full saturation (gold for
+TrustLens, olive for FedLearn, bronze for Flimo) and layers a luminous core, a
+vignette and film grain over it.
+
+They are the heaviest thing on the page at ~240 KB each, because grain is
+incompressible — the gradient alone was ~32 KB. Drop `strength` on the grain tile
+in the generator if you would rather have the bytes back.
 
 They come from `../social-previews/make-images.ps1`, which writes straight into
 `assets/img/`. Edit the `$projects` table there to change the colour mix, then
