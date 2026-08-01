@@ -38,6 +38,14 @@ There is no API for the social preview — it is web-UI only. Per repo:
 GitHub caches previews, so a card can take a few minutes to appear in link
 unfurls. Check with `curl -s https://github.com/<owner>/<repo> | grep og:image`.
 
+## Not to be confused with the site's project panels
+
+`project-gradients.ps1`, also in this folder, generates a *different* set of
+images: the text-free gradient washes used for the three project image slots on
+the portfolio page. It writes directly into
+`../ashwin-rajan-portfolio/assets/img/`. The cards described above are for GitHub
+only and are never used on the page.
+
 ## Regenerating
 
 Built by `cards.ps1` (kept alongside these files). It needs
@@ -48,6 +56,6 @@ Built by `cards.ps1` (kept alongside these files). It needs
 .\cards.ps1
 ```
 
-The portfolio uses JPEG re-encodes of these same images at
-`../ashwin-rajan-portfolio/assets/img/<repo>-card.jpg`; regenerate those too if
-you change the masters.
+Note that `../ashwin-rajan-portfolio/assets/img/<repo>-card.jpg` is *not* derived
+from these masters — those are the gradient panels from `project-gradients.ps1`.
+Changing the cards here has no effect on the page.

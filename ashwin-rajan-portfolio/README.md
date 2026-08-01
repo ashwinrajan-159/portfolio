@@ -94,32 +94,38 @@ vercel dev           # or: python -m http.server 8099
 All four `<image-slot>`s are filled via a `src` attribute on their `x-import`
 tag in `index.html`. To swap any of them, replace the file or repoint `src`:
 
-| slot id         | file                            | fit     |
-| --------------- | ------------------------------- | ------- |
-| `portrait`      | `assets/img/portrait.jpg`       | cover   |
-| `trustlens-img` | `assets/img/trustlens-card.jpg` | contain |
-| `fedlearn-img`  | `assets/img/fedlearn-card.jpg`  | contain |
-| `flimo-img`     | `assets/img/flimo-card.jpg`     | contain |
+| slot id         | file                            | fit   | greyscale |
+| --------------- | ------------------------------- | ----- | --------- |
+| `portrait`      | `assets/img/portrait.jpg`       | cover | yes       |
+| `trustlens-img` | `assets/img/trustlens-card.jpg` | cover | no        |
+| `fedlearn-img`  | `assets/img/fedlearn-card.jpg`  | cover | no        |
+| `flimo-img`     | `assets/img/flimo-card.jpg`     | cover | no        |
 
-The three project cards are generated, not screenshots — see
-`../social-previews/` for the 1280x640 PNG masters and the script that built
-them. The site copies are JPEG re-encodes at quality 84 (~70 KB each instead of
-~210 KB).
+The three project panels are generated gradient washes, deliberately text-free —
+the project name, tagline and stack already sit in the left column of the same
+row, so anything set on the image would just repeat it. They are built by
+`../social-previews/project-gradients.ps1`, which writes straight into
+`assets/img/`; edit the `$panels` table there to change the colour mix, then
+re-run it. Each carries the project's initial in Codex at 12% opacity, centred so
+`cover` cannot crop it.
 
-Every image renders greyscale: `applyTweaks()` in the page's `text/x-dc` script
-sets `filter:grayscale(1)` on each `[data-mono]` container, defaulting to on
-because the `monochromeImages` prop is unset in a static deploy. Change that
-default in the script to show images in colour.
+Greyscale is per-container: `applyTweaks()` in the page's `text/x-dc` script sets
+`filter:grayscale(1)` on every `[data-mono]` element, and the `monochromeImages`
+prop is unset in a static deploy so it defaults to on. Only the portrait's
+container still carries `data-mono` — it was removed from the three project
+panels, which would otherwise render their bronze and gold as flat grey.
+
+Do not confuse these with the text-bearing 1280×640 cards in
+`../social-previews/`; those are the GitHub social previews and are a separate
+set of files.
 
 ## Known gaps
 
-- **The project panels duplicate their own captions.** Each generated card
-  repeats the project name and tagline that already sit in the left column of the
-  same row, and the greyscale filter flattens the card's bronze and gold. They
-  were designed as GitHub social previews, where they work well; on the page they
-  are a stopgap. The original placeholders asked for screenshots of the running
-  projects ("Drop a TrustLens screenshot", "a FedLearn browser visualization"),
-  which is still the right fill.
+- **The project panels are abstract, not screenshots.** The original placeholders
+  asked for images of the running projects ("Drop a TrustLens screenshot", "a
+  FedLearn browser visualization"); the gradients read cleanly but show nothing of
+  the work. Real screenshots remain the stronger fill whenever they exist — drop
+  them in and repoint `src`.
 - **The repos have no description set**, so GitHub's own preview falls back to a
   stats card. Upload the masters from `../social-previews/` under each repo's
   Settings → General → Social preview, and add a one-line description while you
