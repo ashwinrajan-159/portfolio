@@ -23,7 +23,8 @@ assets/
   img/backdrop.jpg             blurred page backdrop
   img/og-image.png             1200x630 social card
   img/apple-touch-icon.png
-  fonts/*                      24 self-hosted faces
+  img/portrait.jpg
+  fonts/*                      self-hosted faces (Zodiac.ttf draws the project cards)
 ```
 
 Nothing is fetched from a third-party origin at runtime — no Google Fonts, no
@@ -91,44 +92,43 @@ vercel dev           # or: python -m http.server 8099
 
 ## Images
 
-All four `<image-slot>`s are filled via a `src` attribute on their `x-import`
-tag in `index.html`. To swap any of them, replace the file or repoint `src`:
-
-| slot id         | file                            | fit   | greyscale |
-| --------------- | ------------------------------- | ----- | --------- |
-| `portrait`      | `assets/img/portrait.jpg`       | cover | yes       |
-| `trustlens-img` | `assets/img/trustlens-card.jpg` | cover | no        |
-| `fedlearn-img`  | `assets/img/fedlearn-card.jpg`  | cover | no        |
-| `flimo-img`     | `assets/img/flimo-card.jpg`     | cover | no        |
-
-The three project panels are generated mesh gradients carrying **no text at all** —
-the name, tagline and stack already sit in the left column of the same row. Each
-leads with one colour of the portfolio triad read at full saturation (gold for
-TrustLens, olive for FedLearn, bronze for Flimo) and layers a luminous core, a
-vignette and film grain over it.
-
-They are the heaviest thing on the page at ~240 KB each, because grain is
-incompressible — the gradient alone was ~32 KB. Drop `strength` on the grain tile
-in the generator if you would rather have the bytes back.
-
-They come from `../social-previews/make-images.ps1`, which writes straight into
-`assets/img/`. Edit the `$projects` table there to change the colour mix, then
-re-run it. That one script also produces the GitHub social previews from the same
-mesh, so the two stay in sync.
+The portrait is the only `<image-slot>` left, filled via the `src` attribute on
+its `x-import` tag: `assets/img/portrait.jpg`, cover-fit, greyscale.
 
 Greyscale is per-container: `applyTweaks()` in the page's `text/x-dc` script sets
 `filter:grayscale(1)` on every `[data-mono]` element, and the `monochromeImages`
-prop is unset in a static deploy so it defaults to on. Only the portrait's
-container still carries `data-mono` — it was removed from the three project
-panels, which would otherwise render as flat grey.
+prop is unset in a static deploy so it defaults to on.
+
+## Project cards
+
+Each project is shown as a holographic trading card, built entirely in HTML/CSS
+(the `.pk-*` rules in the second `<style>` element) with no image files. The art
+is one glyph of `assets/fonts/Zodiac.ttf`, a dingbat face where every lowercase
+letter is a full tarot-style zodiac illustration:
+
+| project   | glyph | sign        | foil pattern    | class              |
+| --------- | ----- | ----------- | --------------- | ------------------ |
+| TrustLens | `i`   | Libra       | diamond lattice | `pk--libra`        |
+| CrowdWise | `a`   | Aquarius    | water ripples   | `pk--aquarius`     |
+| Flimo     | `k`   | Sagittarius | etched swirl    | `pk--sagittarius`  |
+
+The other glyphs: `b` Pisces, `c` Aries, `d` Taurus, `e` Gemini, `f` Cancer,
+`g` Leo, `h` Virgo, `j` Scorpio, `l` Capricorn, `m` The Moon, `n` The Sun. To
+swap a card's art, change the letter inside its `.pk-glyph`.
+
+The palette, art wash and foil pattern of each card are custom properties on its
+modifier class (`--pk-art`, `--pk-ink`, `--pk-pattern`, ...). The foil is one
+rainbow gradient masked through `--pk-pattern`, so a new pattern is just a new
+mask. `setupCards()` in the x-dc script maps the pointer to `--mx/--my`,
+`--px/--py` and `--o`, which drive the tilt, the art parallax, the foil position
+and the glare. At rest the foil drifts on a slow idle animation;
+`prefers-reduced-motion` turns off both that and the tilt.
+
+All card sizes are in `cqw` (the `.pk` element is a size container), so the card
+scales as one piece from desktop down to mobile.
 
 ## Known gaps
 
-- **The project panels are abstract, not screenshots.** The original placeholders
-  asked for images of the running projects ("Drop a TrustLens screenshot", "a
-  FedLearn browser visualization"); the gradients read cleanly but show nothing of
-  the work. Real screenshots remain the stronger fill whenever they exist — drop
-  them in and repoint `src`.
 - **The repos have no description set**, so GitHub's own preview falls back to a
   stats card. Upload the masters from `../social-previews/` under each repo's
   Settings → General → Social preview, and add a one-line description while you

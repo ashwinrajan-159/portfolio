@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Ashwin Rajan — Backend &amp; Cloud Infrastructure Engineer</title>
-<meta name="description" content="Ashwin Rajan builds AI systems that prioritize explainability, privacy and scale — federated learning platforms, explainable fraud detection and production AI infrastructure.">
+<meta name="description" content="Ashwin Rajan builds AI systems that prioritize explainability, privacy and scale — cloud search services, loan-fraud detection and traffic deployment planning.">
 <meta name="author" content="Ashwin Rajan">
 <meta name="theme-color" content="#FAF7F0">
 <link rel="canonical" href="https://SITE_URL/">
@@ -620,6 +620,7 @@ window.__resources = {
     @font-face{font-family:'Codex';src:url("assets/fonts/Codex.ttf") format('truetype');font-display:swap}
     @font-face{font-family:'MythologV2';src:url("assets/fonts/MythologV2.ttf") format('truetype');font-display:swap}
     @font-face{font-family:'RoyalInitialen';src:url("assets/fonts/RoyalInitialen.ttf") format('truetype');font-display:swap}
+    @font-face{font-family:'Zodiac';src:url("assets/fonts/Zodiac.ttf") format('truetype');font-display:block}
     html{scroll-behavior:smooth}
     body{margin:0;background:#FAF7F0;color:#2E2A26;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
     a{color:#2E2A26;text-decoration:none}
@@ -627,6 +628,87 @@ window.__resources = {
     ::selection{background:#C9A227;color:#2E2A26}
     @keyframes blobDrift{0%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}100%{transform:translate(0,0)}}
     @keyframes orbFloat{0%{transform:translateY(0)}50%{transform:translateY(-16px)}100%{transform:translateY(0)}}
+
+    /* --- Project cards: a trading-card take on each project. The art is one
+       glyph of the Zodiac dingbat face (every lowercase letter is a full
+       tarot-style illustration), painted over a per-card colour wash. The
+       pointer drives --mx/--my (glare position, 0-100%), --px/--py (-1..1,
+       tilt + parallax) and --o (holo strength, 0 at rest); setupCards() in the
+       x-dc script writes them. Each card masks the same rainbow foil through
+       its own pattern: diamond lattice, water ripples, etched swirl. The foil sits
+       under the text layers so the copy stays readable at any angle. --- */
+    .pk-stage{position:relative;height:100%;min-height:600px;display:flex;align-items:center;justify-content:center;perspective:1300px}
+    .pk-stage::before{content:"";position:absolute;left:50%;top:50%;width:72%;height:78%;transform:translate(-50%,-50%);border-radius:50%;background:var(--pk-glow);filter:blur(70px);opacity:.6;pointer-events:none}
+    .pk{--mx:50%;--my:50%;--px:0;--py:0;--o:0;position:relative;width:min(390px,88%);aspect-ratio:63/88;container-type:inline-size;touch-action:pan-y}
+    .pk-tilt{position:absolute;inset:0;transform:rotateX(calc(var(--py) * -11deg)) rotateY(calc(var(--px) * 14deg)) scale(var(--pk-s,1));transition:transform .8s cubic-bezier(.22,1,.36,1);will-change:transform}
+    .pk[data-active] .pk-tilt{--pk-s:1.04;transition:transform .14s ease-out}
+    .pk-body{position:absolute;inset:0;box-sizing:border-box;padding:3.8cqw;border-radius:4.8cqw;
+      background:linear-gradient(118deg,#A87A16 0%,#E9C25A 18%,#FFF1BA 30%,#E5B947 42%,#9E7012 58%,#EDCB64 76%,#FFF0B0 86%,#BF8F25 100%);
+      background-size:240% 240%;background-position:calc(50% + var(--px) * 30%) calc(50% + var(--py) * 30%);
+      box-shadow:inset 0 .6cqw 0 rgba(255,255,255,.45),inset 0 -.6cqw 0 rgba(70,45,5,.25),0 44px 70px -30px rgba(46,30,10,.6),0 16px 26px -14px rgba(46,30,10,.4)}
+    .pk-face{position:relative;width:100%;height:100%;border-radius:2.2cqw;overflow:hidden;isolation:isolate;background:var(--pk-art);color:#1E1A16;font-family:'Archivo',system-ui,sans-serif}
+
+    .pk-art{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;transform:translate(calc(var(--px) * -2.2%),calc(var(--py) * -2.2%));transition:transform .8s cubic-bezier(.22,1,.36,1)}
+    .pk[data-active] .pk-art{transition:transform .14s ease-out}
+    /* every glyph's ink is 0.585em x 0.8em and starts flush at the top of a
+       line-height:1 box, so this crops exactly to the drawing; 182cqw scales it
+       past the face far enough to lose the glyph's own black frame (the
+       -17cqw lift hides the top edge; the bottom one sits under the panel) */
+    .pk-glyph{display:block;flex:none;font-family:'Zodiac';font-size:182cqw;line-height:1;width:.585em;height:.8em;margin-top:-17cqw;overflow:hidden;color:var(--pk-ink);user-select:none}
+
+    .pk-shine,.pk-glare{position:absolute;inset:0;z-index:2;pointer-events:none}
+    .pk-glare{z-index:4}
+    .pk-shine{background-image:repeating-linear-gradient(118deg,hsl(0 100% 72%) 0%,hsl(42 100% 64%) 3.5%,hsl(95 90% 64%) 7%,hsl(175 95% 66%) 10.5%,hsl(222 100% 72%) 14%,hsl(285 95% 72%) 17.5%,hsl(0 100% 72%) 21%);
+      background-size:300% 300%;background-position:calc(50% + var(--px) * 45%) calc(50% + var(--py) * 45%);
+      -webkit-mask-image:var(--pk-pattern);mask-image:var(--pk-pattern);-webkit-mask-size:var(--pk-pattern-size,auto);mask-size:var(--pk-pattern-size,auto);
+      mix-blend-mode:color-dodge;filter:brightness(.62) contrast(1.4) saturate(1.5);opacity:calc(.42 + var(--o) * .58);transition:opacity .5s}
+    .pk:not([data-active]) .pk-shine{animation:pkIdle 9s ease-in-out infinite}
+    @keyframes pkIdle{0%,100%{background-position:30% 30%}50%{background-position:70% 70%}}
+    .pk-glare{background:radial-gradient(farthest-corner circle at var(--mx) var(--my),rgba(255,255,255,.7) 0%,rgba(255,255,255,.22) 24%,rgba(0,0,0,.32) 95%);mix-blend-mode:overlay;opacity:calc(var(--o) * .8);transition:opacity .5s}
+    .pk-body::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(farthest-corner circle at var(--mx) var(--my),rgba(255,255,255,.7),rgba(255,255,255,0) 45%);mix-blend-mode:soft-light;opacity:var(--o);transition:opacity .5s}
+
+    .pk-top{position:absolute;left:0;right:0;top:0;z-index:3;display:flex;align-items:center;gap:1.6cqw;padding:2.8cqw 3cqw 7cqw;background:linear-gradient(to bottom,rgba(255,251,242,.82),rgba(255,251,242,.5) 55%,rgba(255,251,242,0))}
+    .pk-tag{flex:none;font:italic 800 2.4cqw/1 'Archivo',sans-serif;letter-spacing:.05em;padding:1cqw 3cqw 1cqw 1.8cqw;color:#2A2A2A;background:linear-gradient(#FDFDFD,#B9B9B9 55%,#E2E2E2);clip-path:polygon(0 0,86% 0,100% 50%,86% 100%,0 100%);border-radius:.8cqw 0 0 .8cqw}
+    .pk-name{flex:1;min-width:0;font-family:'Unbounded',sans-serif;font-weight:800;font-size:6.1cqw;letter-spacing:-.02em;line-height:1;white-space:nowrap}
+    .pk-hp{flex:none;font-family:'Unbounded',sans-serif;font-weight:800;font-size:5.4cqw;line-height:1;color:#B3261E}
+    .pk-hp small{font-size:2.3cqw;margin-right:.5cqw;color:#1E1A16;vertical-align:.25em}
+    .pk-orb{flex:none;width:6.4cqw;height:6.4cqw;border-radius:50%;display:grid;place-items:center;font-size:3.3cqw;line-height:1;color:rgba(30,20,10,.85);background:radial-gradient(circle at 34% 30%,#FFF 0 10%,var(--pk-orb) 52%,var(--pk-orb-deep) 100%);box-shadow:0 0 0 .5cqw rgba(255,255,255,.85),0 .5cqw 1cqw rgba(0,0,0,.3)}
+    .pk-dex{position:absolute;z-index:3;left:7cqw;right:7cqw;top:12.4cqw;padding:.9cqw 2cqw;text-align:center;font:italic 500 2.1cqw/1.2 'Archivo',sans-serif;letter-spacing:.02em;color:#3A332C;background:linear-gradient(90deg,rgba(235,235,235,0),rgba(245,245,245,.92) 12%,rgba(205,205,205,.92) 50%,rgba(245,245,245,.92) 88%,rgba(235,235,235,0));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+    .pk-panel{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:10cqw 3.6cqw 2.2cqw;background:linear-gradient(to bottom,rgba(255,251,242,0),rgba(255,251,242,.86) 10cqw,rgba(255,251,242,.93))}
+    .pk-move{display:grid;grid-template-columns:auto 1fr auto;align-items:center;column-gap:2.2cqw;margin:0 0 2.6cqw}
+    .pk-cost{display:flex;gap:.7cqw}
+    .pk-cost i,.pk-dots i{display:grid;place-items:center;width:4.4cqw;height:4.4cqw;border-radius:50%;font-style:normal;font-size:2.4cqw;line-height:1;color:rgba(30,20,10,.8);background:radial-gradient(circle at 34% 30%,#FFF 0 10%,var(--pk-orb) 55%,var(--pk-orb-deep) 100%);box-shadow:0 .3cqw .6cqw rgba(0,0,0,.28)}
+    .pk-cost i.pk-c{background:radial-gradient(circle at 34% 30%,#FFF 0 10%,#E8E4DA 55%,#9C968A 100%)}
+    .pk-ability{flex:none;font:italic 800 2.5cqw/1 'Archivo',sans-serif;letter-spacing:.03em;padding:.9cqw 1.8cqw;border-radius:.8cqw;color:#FFF;background:linear-gradient(#E0493E,#A3221A)}
+    .pk-move b{font-weight:800;font-size:4.5cqw;letter-spacing:-.01em;line-height:1.1}
+    .pk-move .pk-ability + b{color:#A3221A}
+    .pk-dmg{font-family:'Unbounded',sans-serif;font-weight:700;font-size:5cqw;line-height:1}
+    .pk-move p{grid-column:1/-1;margin:1.1cqw 0 0;font-size:2.95cqw;line-height:1.38;color:#2B2621;text-wrap:pretty}
+    .pk-bar{display:flex;justify-content:space-between;align-items:center;gap:1.4cqw;margin:0 -1.2cqw 2cqw;padding:1.1cqw 2.4cqw;border-radius:5cqw;font-size:2.25cqw;line-height:1;white-space:nowrap;color:#2B2621;background:linear-gradient(#FBFBFB,#C9C9C9 55%,#EDEDED);box-shadow:inset 0 0 0 .25cqw rgba(255,255,255,.7)}
+    .pk-bar span{display:flex;align-items:center;gap:1cqw}
+    .pk-bar em{font-style:normal;font-weight:700}
+    .pk-dots{display:flex;gap:.5cqw}
+    .pk-dots i{width:3cqw;height:3cqw;font-size:1.6cqw;background:radial-gradient(circle at 34% 30%,#FFF 0 10%,#E8E4DA 55%,#9C968A 100%)}
+    .pk-flavor{margin:0 0 1.8cqw auto;max-width:76%;padding:1cqw 1.8cqw;border:.25cqw solid rgba(120,100,70,.45);border-radius:.6cqw;font-size:2.2cqw;font-style:italic;line-height:1.35;color:#3A332C;text-wrap:pretty}
+    .pk-foot{display:flex;justify-content:space-between;align-items:baseline;gap:2cqw;font-family:'IBM Plex Mono',monospace;font-size:1.85cqw;line-height:1;color:#4A4239}
+    .pk-foot b{font-weight:500;color:#1E1A16}
+
+    /* per-card palette, art and foil pattern */
+    .pk--libra{--pk-glow:radial-gradient(closest-side,rgba(255,150,190,.75),rgba(201,162,39,.4) 60%,transparent);--pk-ink:#1C1238;--pk-orb:#D9D2C4;--pk-orb-deep:#7D7566;
+      --pk-art:radial-gradient(60% 45% at 22% 28%,#FFB3D1 0%,transparent 70%),radial-gradient(55% 45% at 80% 38%,#C6B3FF 0%,transparent 70%),radial-gradient(70% 50% at 50% 78%,#FFD98A 0%,transparent 72%),linear-gradient(160deg,#FFE3EE,#FFF1C9 50%,#E6DCFF);
+      --pk-pattern:repeating-linear-gradient(45deg,#000 0 .45cqw,rgba(0,0,0,.18) .45cqw 4.6cqw),repeating-linear-gradient(-45deg,#000 0 .45cqw,rgba(0,0,0,.18) .45cqw 4.6cqw)}
+    .pk--aquarius{--pk-glow:radial-gradient(closest-side,rgba(110,170,255,.7),rgba(107,125,61,.35) 60%,transparent);--pk-ink:#0D1B3A;--pk-orb:#7CC4FF;--pk-orb-deep:#2A63B8;
+      --pk-art:radial-gradient(55% 42% at 30% 30%,#A9E4FF 0%,transparent 70%),radial-gradient(60% 50% at 85% 25%,#C9B8FF 0%,transparent 72%),radial-gradient(60% 50% at 50% 80%,#B5F5E0 0%,transparent 72%),linear-gradient(170deg,#DDF3FF,#EAE4FF 55%,#DAFBF0);
+      --pk-pattern:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='22'><rect width='60' height='22' fill='rgba(0,0,0,.16)'/><path d='M0 11 Q15 1 30 11 T60 11' fill='none' stroke='black' stroke-width='2.2'/></svg>");--pk-pattern-size:9cqw 3.3cqw}
+    .pk--sagittarius{--pk-glow:radial-gradient(closest-side,rgba(255,150,100,.7),rgba(139,107,62,.45) 60%,transparent);--pk-ink:#2A0E1C;--pk-orb:#FF9A5A;--pk-orb-deep:#B23A12;
+      --pk-art:radial-gradient(55% 45% at 78% 22%,#FFB38A 0%,transparent 70%),radial-gradient(60% 48% at 18% 60%,#FF9FBE 0%,transparent 72%),radial-gradient(60% 45% at 70% 85%,#BCA8FF 0%,transparent 72%),linear-gradient(165deg,#FFE6D4,#FFE0EA 50%,#E9E0FF);
+      --pk-pattern:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'><filter id='f' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='.011' numOctaves='3' seed='11' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.6 0 0 0 -.3'/><feComponentTransfer><feFuncA type='discrete' tableValues='.15 1 .15 .15 1 .15 .15 1 .15 .15 1 .15 .15 1 .15 .15 1 .15'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23f)'/></svg>");--pk-pattern-size:62cqw 62cqw}
+
+    @media (max-width:900px){
+      .pk-stage{min-height:0;padding:12px 0 28px}
+      .pk{width:min(340px,86%)}
+    }
 
     /* --- Mobile fallback: the layout is built from fixed 12-column grids in
        inline styles, so these overrides collapse it to a single column.
@@ -650,6 +732,7 @@ window.__resources = {
     }
     @media (prefers-reduced-motion:reduce){
       *{animation:none !important}
+      .pk-tilt,.pk-art{transform:none !important}
       html{scroll-behavior:auto}
     }
   </style>
@@ -689,7 +772,7 @@ window.__resources = {
         <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8B6B3E;margin:0 0 16px">Profile</p>
         <div style="font-family:'Codex','Unbounded',sans-serif;font-size:clamp(64px,7.5vw,128px);line-height:1.05;letter-spacing:.01em;margin:0 0 32px;color:#2E2A26">Ashwin Rajan</div>
         <h1 style="font-family:'Unbounded',sans-serif;font-size:clamp(27px,2.8vw,44px);line-height:1.22;font-weight:500;letter-spacing:-0.01em;margin:0;max-width:680px;text-wrap:pretty">Building <span data-accent-text="" style="background-image:linear-gradient(90deg,#8B6B3E,#C9A227);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">AI</span> systems that prioritize explainability, privacy and scale.</h1>
-        <p style="font-size:15px;line-height:1.75;color:#5D564F;max-width:440px;margin:36px 0 0">I build federated learning platforms, explainable fraud detection and production AI infrastructure — backend, cloud and everything between.</p>
+        <p style="font-size:15px;line-height:1.75;color:#5D564F;max-width:440px;margin:36px 0 0">I build cloud search services, fraud-detection pipelines and deployment automation — backend, cloud and everything between.</p>
 
         <div style="display:grid;grid-template-columns:90px 1fr;gap:10px 24px;margin-top:64px;font-size:12.5px;max-width:420px">
           <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;padding-top:2px">Phone</span><span>+91 70107 04499</span>
@@ -719,64 +802,107 @@ window.__resources = {
       <div style="font-family:'RoyalInitialen',serif;font-size:clamp(52px,8vw,140px);font-weight:400;letter-spacing:.02em;line-height:1;color:#5C4327;margin:60px 0 100px" aria-hidden="true"><span style="font-family: 'MythologV2',serif; font-weight: 400; font-size: 1.35em; line-height: 0; vertical-align: -.12em; margin-right: .18em; color: #000000; -webkit-font-smoothing: auto; text-rendering: geometricPrecision">z</span>PROJECTS</div>
 
       <!-- 01 TrustLens -->
-      <article style="display:grid;grid-template-columns:repeat(12,1fr);gap:32px;align-items:stretch;margin-bottom:120px" data-reveal="">
+      <article style="display:grid;grid-template-columns:repeat(12,1fr);gap:32px;align-items:center;margin-bottom:120px" data-reveal="">
         <div style="grid-column:1/6">
           <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8B6B3E"><span style="display:inline-block;width:9px;height:9px;background:#C9A227;margin-right:11px;vertical-align:1px"></span>01</span>
           <h2 style="font-family:'Unbounded',sans-serif;font-size:clamp(29px,2.8vw,44px);font-weight:800;letter-spacing:-0.01em;line-height:1.08;margin:16px 0 8px;transition:transform .7s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-5px)">TrustLens</h2>
-          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 28px">Explainable Fraud Detection Platform</p>
-          <p style="font-size:14.5px;line-height:1.75;color:#5D564F;max-width:460px;margin:0 0 40px;text-wrap:pretty">An explainable fraud-detection backend with an idempotent OCR → analysis → forensics → risk-scoring pipeline, an immutable WORM audit trail with a tamper-evident hash chain, and a NetworkX graph that surfaces mule accounts and fraud rings — every ML verdict explained with SHAP.</p>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 28px">Loan Fraud Detection Platform</p>
+          <p style="font-size:14.5px;line-height:1.75;color:#5D564F;max-width:460px;margin:0 0 40px;text-wrap:pretty">A containerised platform for automated loan-fraud assessment, built for the Canara Bank SuRaksha Hackathon 2.0: an async FastAPI REST API and React frontend over a 10-stage pipeline from OCR to risk scoring, run with Docker Compose. Long-running work moves into Celery workers with every stage idempotent, so failed jobs retry without duplicate writes, and a transactional outbox commits database changes and Kafka events together. Security policy lives in code — JWT with refresh-token rotation, Argon2 hashing, TOTP MFA, four-role RBAC and startup checks that block production runs with weak secrets — and CI runs pytest, Ruff, Bandit and secret scanning.</p>
           <div style="border-top:1px solid #D7CFC0">
             <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Role</span><span>Backend &amp; Systems Design</span></div>
             <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Year</span><span>2026</span></div>
-            <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Stack</span><span>FastAPI · Celery · Redis · PostgreSQL · Kafka</span></div>
+            <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Stack</span><span>FastAPI · PostgreSQL · Celery · Redis · Kafka · React · Docker</span></div>
           </div>
           <a href="https://github.com/ashwinrajan-159/trustlens" target="_blank" rel="noopener" style="display:inline-block;margin-top:36px;font-size:13px;font-weight:600;letter-spacing:.02em">Read Case Study →<span data-accent-line="" style="display:block;height:2px;margin-top:6px;background-image:linear-gradient(90deg,#8B6B3E,#C9A227)"></span></a>
         </div>
-        <div style="grid-column:6/13;position:relative;overflow:hidden;height:100%;min-height:520px">
-          <div style="position:absolute;inset:0;transition:transform .9s cubic-bezier(.22,1,.36,1)" style-hover="transform:scale(1.02)">
-            <x-import component-from-global-scope="image-slot" from="assets/js/image-slot.js#/image-slot.js" id="trustlens-img" src="assets/img/trustlens-card.jpg" shape="rect" fit="cover" placeholder="Drop a TrustLens screenshot" hint-size="100%,520px"></x-import>
+        <div style="grid-column:6/13;position:relative">
+          <div class="pk-stage pk--libra">
+            <div class="pk" data-card="">
+              <div class="pk-tilt"><div class="pk-body"><div class="pk-face">
+                <div class="pk-art"><span class="pk-glyph" aria-hidden="true">i</span></div>
+                <div class="pk-top"><span class="pk-tag">BASIC</span><span class="pk-name">TrustLens</span><span class="pk-hp"><small>HP</small>120</span><span class="pk-orb" aria-hidden="true">◆</span></div>
+                <div class="pk-dex">Loan Fraud Detection · Ht: FastAPI · Wt: React</div>
+                <div class="pk-panel">
+                  <div class="pk-move"><span class="pk-ability">Ability</span><b>Policy Lock</b><span></span><p>JWT with refresh-token rotation, Argon2, TOTP MFA and four-role RBAC. Weak secrets block a production start.</p></div>
+                  <div class="pk-move"><span class="pk-cost"><i>◆</i><i>◆</i><i class="pk-c">✦</i></span><b>Outbox Strike</b><span class="pk-dmg">×10</span><p>Ten idempotent stages from OCR to risk score; database writes and Kafka events commit together.</p></div>
+                  <div class="pk-bar"><span>weakness <em>Weak secrets ×2</em></span><span>resistance <em>Retries −30</em></span><span>retreat <span class="pk-dots"><i>✦</i></span></span></div>
+                  <p class="pk-flavor">Shortlisted at the Canara Bank SuRaksha Hackathon 2.0 — one of 130 teams out of 1,560.</p>
+                  <div class="pk-foot"><span>Illus. Zodiac · Libra</span><b>01/03 ★</b><span>©2026 Ashwin Rajan</span></div>
+                </div>
+                <div class="pk-shine"></div><div class="pk-glare"></div>
+              </div></div></div>
+            </div>
           </div>
         </div>
       </article>
 
-      <!-- 02 FedLearn -->
-      <article style="display:grid;grid-template-columns:repeat(12,1fr);gap:32px;align-items:start;margin-bottom:120px" data-reveal="">
-        <div style="grid-column:1/8;position:relative;height:520px;overflow:hidden">
-          <div style="position:absolute;inset:0;transition:transform .9s cubic-bezier(.22,1,.36,1)" style-hover="transform:scale(1.02)">
-            <x-import component-from-global-scope="image-slot" from="assets/js/image-slot.js#/image-slot.js" id="fedlearn-img" src="assets/img/fedlearn-card.jpg" shape="rect" fit="cover" placeholder="Drop a FedLearn browser visualization" hint-size="100%,520px"></x-import>
+      <!-- 02 CrowdWise -->
+      <article style="display:grid;grid-template-columns:repeat(12,1fr);gap:32px;align-items:center;margin-bottom:120px" data-reveal="">
+        <div style="grid-column:1/8;position:relative">
+          <div class="pk-stage pk--aquarius">
+            <div class="pk" data-card="">
+              <div class="pk-tilt"><div class="pk-body"><div class="pk-face">
+                <div class="pk-art"><span class="pk-glyph" aria-hidden="true">a</span></div>
+                <div class="pk-top"><span class="pk-tag">BASIC</span><span class="pk-name">CrowdWise</span><span class="pk-hp"><small>HP</small>130</span><span class="pk-orb" aria-hidden="true">≈</span></div>
+                <div class="pk-dex">Traffic Planning Service · Ht: LightGBM · Wt: 8,173 events</div>
+                <div class="pk-panel">
+                  <div class="pk-move"><span class="pk-ability">Ability</span><b>Chokepoint Sense</b><span></span><p>Turns a city event calendar into ranked congestion chokepoints and officer deployment plans.</p></div>
+                  <div class="pk-move"><span class="pk-cost"><i>≈</i><i>≈</i><i class="pk-c">✦</i></span><b>Gridlock Breaker</b><span class="pk-dmg">23%</span><p>A historical replay estimates a 23.3% cut in vehicle-hours of delay.</p></div>
+                  <div class="pk-bar"><span>weakness <em>Surprise events ×2</em></span><span>resistance <em>Leaked secrets −30</em></span><span>retreat <span class="pk-dots"><i>✦</i></span></span></div>
+                  <p class="pk-flavor">Re-forecasts on a schedule as new events arrive, guarded by a 12-test pytest suite.</p>
+                  <div class="pk-foot"><span>Illus. Zodiac · Aquarius</span><b>02/03 ★</b><span>©2026 Ashwin Rajan</span></div>
+                </div>
+                <div class="pk-shine"></div><div class="pk-glare"></div>
+              </div></div></div>
+            </div>
           </div>
         </div>
         <div style="grid-column:8/13">
           <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8B6B3E"><span style="display:inline-block;width:9px;height:9px;background:#C9A227;margin-right:11px;vertical-align:1px"></span>02</span>
-          <h2 style="font-family:'Unbounded',sans-serif;font-size:clamp(29px,2.8vw,44px);font-weight:800;letter-spacing:-0.01em;line-height:1.08;margin:16px 0 8px;transition:transform .7s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-5px)">FedLearn</h2>
-          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 28px">Browser-Native Federated Learning</p>
-          <p style="font-size:14.5px;line-height:1.75;color:#5D564F;max-width:460px;margin:0 0 40px;text-wrap:pretty">A federated learning platform that trains in the browser: zero-copy binary transport cut tensor serialization from ~45ms to under 1ms, Top-K sparsification and INT8 quantization cut network use 10–100×, and geometric-median aggregation tolerates 30–40% adversarial workers — with differential privacy tracked by a Rényi accountant.</p>
+          <h2 style="font-family:'Unbounded',sans-serif;font-size:clamp(29px,2.8vw,44px);font-weight:800;letter-spacing:-0.01em;line-height:1.08;margin:16px 0 8px;transition:transform .7s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-5px)">CrowdWise</h2>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 28px">Traffic Deployment Planning Service</p>
+          <p style="font-size:14.5px;line-height:1.75;color:#5D564F;max-width:460px;margin:0 0 40px;text-wrap:pretty">A deployed FastAPI service that turns a city event calendar into ranked congestion chokepoints and officer deployment plans, with REST endpoints for prediction, retraining, CSV upload and event ingestion. It deploys to Render from declarative config with a health-check endpoint and secrets kept out of the repository, and a scheduled job re-forecasts as new events arrive. A historical replay of 8,173 Bengaluru Traffic Police events estimates a 23.3% reduction in vehicle-hours of delay.</p>
           <div style="border-top:1px solid #D7CFC0">
-            <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Role</span><span>Systems &amp; Protocol Design</span></div>
+            <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Role</span><span>Backend &amp; ML</span></div>
             <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Year</span><span>2026</span></div>
-            <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Stack</span><span>WebSockets · Binary Transport · FedBuff · Differential Privacy</span></div>
+            <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Stack</span><span>FastAPI · LightGBM · Docker · pytest · Render</span></div>
           </div>
-          <a href="https://github.com/ashwinrajan-159/fedlearn" target="_blank" rel="noopener" style="display:inline-block;margin-top:36px;font-size:13px;font-weight:600;letter-spacing:.02em">Read Case Study →<span data-accent-line="" style="display:block;height:2px;margin-top:6px;background-image:linear-gradient(90deg,#8B6B3E,#C9A227)"></span></a>
+          <a href="https://github.com/ashwinrajan-159/CrowdWise" target="_blank" rel="noopener" style="display:inline-block;margin-top:36px;font-size:13px;font-weight:600;letter-spacing:.02em">Read Case Study →<span data-accent-line="" style="display:block;height:2px;margin-top:6px;background-image:linear-gradient(90deg,#8B6B3E,#C9A227)"></span></a>
+          <a href="https://crowdwise-hvto.onrender.com" target="_blank" rel="noopener" style="display:inline-block;margin-top:36px;margin-left:36px;font-size:13px;font-weight:600;letter-spacing:.02em">Live Demo →<span data-accent-line="" style="display:block;height:2px;margin-top:6px;background-image:linear-gradient(90deg,#8B6B3E,#C9A227)"></span></a>
         </div>
       </article>
 
       <!-- 03 Flimo -->
-      <article style="display:grid;grid-template-columns:repeat(12,1fr);gap:32px;align-items:start;margin-bottom:80px" data-reveal="">
+      <article style="display:grid;grid-template-columns:repeat(12,1fr);gap:32px;align-items:center;margin-bottom:80px" data-reveal="">
         <div style="grid-column:1/6">
           <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8B6B3E"><span style="display:inline-block;width:9px;height:9px;background:#C9A227;margin-right:11px;vertical-align:1px"></span>03</span>
           <h2 style="font-family:'Unbounded',sans-serif;font-size:clamp(29px,2.8vw,44px);font-weight:800;letter-spacing:-0.01em;line-height:1.08;margin:16px 0 8px;transition:transform .7s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-5px)">Flimo</h2>
-          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 28px">Semantic Search Platform</p>
-          <p style="font-size:14.5px;line-height:1.75;color:#5D564F;max-width:460px;margin:0 0 40px;text-wrap:pretty">FAISS-based semantic search served from a single EC2 instance behind Nginx — a hybrid personalization engine builds composite taste vectors from view history, deploys in 68 seconds through a GitHub Actions pipeline, and runs on ~$34/month of infrastructure.</p>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 28px">Cloud Search Service &amp; Deployment Pipeline</p>
+          <p style="font-size:14.5px;line-height:1.75;color:#5D564F;max-width:460px;margin:0 0 40px;text-wrap:pretty">A deployed FastAPI search API backed by a FAISS vector index, with ingestion pipelines pulling data from the TMDB and YouTube APIs. It runs on AWS EC2 behind an Nginx reverse proxy from a multi-stage Docker build; a GitHub Actions pipeline (push → SSH → build → health check) automates releases and cut deployments to 68 seconds, and HTTPS is served through a Cloudflare Tunnel run as an auto-restarting systemd service.</p>
           <div style="border-top:1px solid #D7CFC0">
             <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Role</span><span>Backend &amp; DevOps</span></div>
             <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Year</span><span>2025</span></div>
-            <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Stack</span><span>FAISS · FastAPI · Nginx · AWS EC2 · Cloudflare</span></div>
+            <div style="display:grid;grid-template-columns:90px 1fr;gap:24px;padding:12px 0;border-bottom:1px solid #D7CFC0;font-size:12.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E">Stack</span><span>FastAPI · FAISS · Docker · Nginx · AWS EC2 · GitHub Actions</span></div>
           </div>
           <a href="https://github.com/ashwinrajan-159/flimo" target="_blank" rel="noopener" style="display:inline-block;margin-top:36px;font-size:13px;font-weight:600;letter-spacing:.02em">Read Case Study →<span data-accent-line="" style="display:block;height:2px;margin-top:6px;background-image:linear-gradient(90deg,#8B6B3E,#C9A227)"></span></a>
         </div>
-        <div style="grid-column:6/13;position:relative;height:520px;overflow:hidden">
-          <div style="position:absolute;inset:0;transition:transform .9s cubic-bezier(.22,1,.36,1)" style-hover="transform:scale(1.02)">
-            <x-import component-from-global-scope="image-slot" from="assets/js/image-slot.js#/image-slot.js" id="flimo-img" src="assets/img/flimo-card.jpg" shape="rect" fit="cover" placeholder="Drop a Flimo screenshot" hint-size="100%,520px"></x-import>
+        <div style="grid-column:6/13;position:relative">
+          <div class="pk-stage pk--sagittarius">
+            <div class="pk" data-card="">
+              <div class="pk-tilt"><div class="pk-body"><div class="pk-face">
+                <div class="pk-art"><span class="pk-glyph" aria-hidden="true">k</span></div>
+                <div class="pk-top"><span class="pk-tag">BASIC</span><span class="pk-name">Flimo</span><span class="pk-hp"><small>HP</small>110</span><span class="pk-orb" aria-hidden="true">➹</span></div>
+                <div class="pk-dex">Cloud Search Service · Ht: AWS EC2 · Wt: FAISS</div>
+                <div class="pk-panel">
+                  <div class="pk-move"><span class="pk-ability">Ability</span><b>Deep Index</b><span></span><p>Ingestion pipelines pull from the TMDB and YouTube APIs into a FAISS vector index.</p></div>
+                  <div class="pk-move"><span class="pk-cost"><i>➹</i><i class="pk-c">✦</i></span><b>Quick Deploy</b><span class="pk-dmg">68s</span><p>push → SSH → docker build → health check, all on GitHub Actions.</p></div>
+                  <div class="pk-bar"><span>weakness <em>Cold start ×2</em></span><span>resistance <em>Downtime −30</em></span><span>retreat <span class="pk-dots"><i>✦</i></span></span></div>
+                  <p class="pk-flavor">Served over HTTPS through a Cloudflare Tunnel that restarts itself as a systemd service.</p>
+                  <div class="pk-foot"><span>Illus. Zodiac · Sagittarius</span><b>03/03 ★</b><span>©2026 Ashwin Rajan</span></div>
+                </div>
+                <div class="pk-shine"></div><div class="pk-glare"></div>
+              </div></div></div>
+            </div>
           </div>
         </div>
       </article>
@@ -792,11 +918,19 @@ window.__resources = {
         <p style="grid-column:1/4;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8B6B3E;margin:0">Who I am</p>
         <div style="grid-column:4/9">
           <p style="font-size:19px;line-height:1.65;margin:0 0 28px;max-width:500px;text-wrap:pretty">I'm a backend and cloud infrastructure engineer with hands-on AWS experience — scalable APIs, distributed systems, CI/CD pipelines and production-grade deployments.</p>
-          <p style="font-size:14.5px;line-height:1.75;color:#5D564F;margin:0;max-width:500px;text-wrap:pretty">Currently studying Computer Science at VIT Bhopal and building at ZettaOne. I care about systems you can trust: explainable models, private-by-design training, and audit trails that can't be rewritten.</p>
+          <p style="font-size:14.5px;line-height:1.75;color:#5D564F;margin:0;max-width:500px;text-wrap:pretty">Currently studying Computer Science at VIT Bhopal and building backend systems at SusStudio. I care about systems you can trust: pipelines that retry without side effects, security enforced in code, and deployments that check their own health.</p>
         </div>
-        <div style="grid-column:9/13;font-size:12.5px;line-height:2.1">
-          <p style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 10px">Tools of choice</p>
-          Python · FastAPI · PostgreSQL<br>Redis · Kafka · Docker<br>AWS · Terraform · GitHub Actions
+        <div style="grid-column:9/13;font-size:12.5px;line-height:1.75">
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 4px">Languages</p>
+          <p style="margin:0 0 18px">Python · Go · Java · JavaScript / Node.js · C++ · SQL · Bash</p>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 4px">Backend</p>
+          <p style="margin:0 0 18px">FastAPI · REST / OpenAPI · SQLAlchemy · Pydantic · Celery · Nginx · WebSockets</p>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 4px">Cloud &amp; DevOps</p>
+          <p style="margin:0 0 18px">AWS (EC2, ECS, S3) · Azure · Docker · Kubernetes · Terraform · GitHub Actions</p>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 4px">Data &amp; Messaging</p>
+          <p style="margin:0 0 18px">PostgreSQL · MySQL · Redis · Kafka · Alembic · MinIO / S3</p>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8B6B3E;margin:0 0 4px">Systems &amp; Tools</p>
+          <p style="margin:0">Linux · TCP/IP · DNS · VPC · pytest · Ruff · Bandit · Git</p>
         </div>
       </div>
     </div>
@@ -810,19 +944,24 @@ window.__resources = {
 
       <div style="border-top:1px solid #D7CFC0" data-reveal="">
         <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:32px;padding:36px 0;border-bottom:1px solid #D7CFC0">
-          <span style="grid-column:1/3;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8B6B3E">Jun 2026 — Present</span>
-          <div style="grid-column:3/8"><h3 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;margin:0 0 4px">ZettaOne</h3><p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B6B3E;margin:0">Software Engineer Intern</p></div>
-          <p style="grid-column:8/13;font-size:13.5px;line-height:1.7;color:#5D564F;margin:0;text-wrap:pretty">AWS ingestion pipelines for near-real-time IoT telemetry; profiling pipeline bottlenecks and deploying containerized FastAPI inference services.</p>
+          <span style="grid-column:1/3;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8B6B3E">Aug 2026 — Present</span>
+          <div style="grid-column:3/8"><h3 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;margin:0 0 4px">SusStudio</h3><p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B6B3E;margin:0">Backend Engineer Intern · Remote</p></div>
+          <p style="grid-column:8/13;font-size:13.5px;line-height:1.7;color:#5D564F;margin:0;text-wrap:pretty">Developing backend modules for Autom8, a multi-tenant AI automation SaaS on FastAPI and PostgreSQL covering CRM, lead intelligence and omni-channel communication. Built the CRM lead-capture API (4 REST endpoints) that attributes inbound leads to clients and campaigns inside each tenant&#39;s isolated workspace, and integrated Razorpay for subscriptions and top-ups and the Gmail API for client email.</p>
         </div>
         <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:32px;padding:36px 0;border-bottom:1px solid #D7CFC0">
-          <span style="grid-column:1/3;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8B6B3E">2023 — 2027</span>
+          <span style="grid-column:1/3;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8B6B3E">Jun 2026 — Jul 2026</span>
+          <div style="grid-column:3/8"><h3 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;margin:0 0 4px">ZettaOne</h3><p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B6B3E;margin:0">Software Engineer Intern · Bengaluru</p></div>
+          <p style="grid-column:8/13;font-size:13.5px;line-height:1.7;color:#5D564F;margin:0;text-wrap:pretty">Owned model selection for a document-processing feature: benchmarked four OCR / vision systems (Google Vision API, PaddleOCR, Granite, DreamMoon) on accuracy, latency and cost, and the comparison decided the production model.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:32px;padding:36px 0;border-bottom:1px solid #D7CFC0">
+          <span style="grid-column:1/3;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8B6B3E">Sep 2023 — May 2027</span>
           <div style="grid-column:3/8"><h3 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;margin:0 0 4px">VIT Bhopal</h3><p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8B6B3E;margin:0">B.Tech Computer Science · CGPA 8.36</p></div>
           <p style="grid-column:8/13;font-size:13.5px;line-height:1.7;color:#5D564F;margin:0;text-wrap:pretty">Operating Systems, Computer Networks, Distributed Systems, Cloud Computing, DevOps.</p>
         </div>
         <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:32px;padding:36px 0;border-bottom:1px solid #D7CFC0">
           <span style="grid-column:1/3;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8B6B3E">Recognition</span>
-          <div style="grid-column:3/8"><h3 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;margin:0 0 4px">Certifications</h3></div>
-          <p style="grid-column:8/13;font-size:13.5px;line-height:1.7;color:#5D564F;margin:0;text-wrap:pretty">AWS Certified Cloud Practitioner (2026) · Top 100, Zelestra × AWS ML Ascend Challenge · Applied ML in Python (2024).</p>
+          <div style="grid-column:3/8"><h3 style="font-size:24px;font-weight:700;letter-spacing:-0.02em;margin:0 0 4px">Certifications &amp; Achievements</h3></div>
+          <p style="grid-column:8/13;font-size:13.5px;line-height:1.7;color:#5D564F;margin:0;text-wrap:pretty">AWS Certified Cloud Practitioner (2026) · Top 100, Zelestra × AWS ML Ascend Challenge · 200+ data structures &amp; algorithms problems solved · Applied Machine Learning in Python (2024) · Canara Bank SuRaksha Cyber Hackathon 2.0: TrustLens shortlisted for the prototype phase, 130 of 1,560 teams.</p>
         </div>
       </div>
     </div>
@@ -860,6 +999,7 @@ class Component extends DCLogic {
     this.applyTextures();
     this.applyTweaks();
     this.setupReveal();
+    this.setupCards();
   }
 
   componentDidUpdate() {
@@ -900,6 +1040,40 @@ class Component extends DCLogic {
     const mono = this.props.monochromeImages ?? true;
     document.querySelectorAll('[data-mono]').forEach((el) => {
       el.style.filter = mono ? 'grayscale(1) contrast(1.08)' : 'none';
+    });
+  }
+
+  // Pointer -> custom properties for the project cards (see the .pk-* rules).
+  // Listens on .pk, which never transforms, so the hit box stays put while
+  // the .pk-tilt inside it rotates.
+  setupCards() {
+    if (this._cardsDone) return;
+    this._cardsDone = true;
+    document.querySelectorAll('[data-card]').forEach((card) => {
+      let frame = 0;
+      const set = (x, y, o) => {
+        const s = card.style;
+        s.setProperty('--mx', (x * 100).toFixed(1) + '%');
+        s.setProperty('--my', (y * 100).toFixed(1) + '%');
+        s.setProperty('--px', (x * 2 - 1).toFixed(3));
+        s.setProperty('--py', (y * 2 - 1).toFixed(3));
+        s.setProperty('--o', o.toFixed(3));
+      };
+      card.addEventListener('pointermove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+        const y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          card.setAttribute('data-active', '');
+          set(x, y, Math.min(1, 0.6 + Math.hypot(x - 0.5, y - 0.5) * 0.8));
+        });
+      });
+      card.addEventListener('pointerleave', () => {
+        cancelAnimationFrame(frame);
+        card.removeAttribute('data-active');
+        set(0.5, 0.5, 0);
+      });
     });
   }
 
